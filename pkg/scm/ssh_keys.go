@@ -33,7 +33,7 @@ func AddSshKeys(title string, filename string, overwrite bool) error {
 	}
 	keyMaterial := string(b)
 	// Setup new key
-	if _, _, err := Client().Users.AddSSHKey(
+	if _, _, err := GetGitLabClient().Users.AddSSHKey(
 		&gitlab.AddSSHKeyOptions{
 			Title: &title,
 			Key:   &keyMaterial,
@@ -45,14 +45,14 @@ func AddSshKeys(title string, filename string, overwrite bool) error {
 }
 
 func DeleteSshKey(key *gitlab.SSHKey) error {
-	if _, err := Client().Users.DeleteSSHKey(key.ID); err != nil {
+	if _, err := GetGitLabClient().Users.DeleteSSHKey(key.ID); err != nil {
 		return err
 	}
 	return nil
 }
 
 func FindSshKey(title string) (*gitlab.SSHKey, error) {
-	keys, _, err := Client().Users.ListSSHKeys()
+	keys, _, err := GetGitLabClient().Users.ListSSHKeys()
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func FindSshKey(title string) (*gitlab.SSHKey, error) {
 }
 
 func GetSshKeys() ([]*gitlab.SSHKey, error) {
-	keys, _, err := Client().Users.ListSSHKeys()
+	keys, _, err := GetGitLabClient().Users.ListSSHKeys()
 	if err != nil {
 		return nil, err
 	}
