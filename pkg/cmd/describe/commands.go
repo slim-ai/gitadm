@@ -25,7 +25,7 @@ func init() {
 			{
 				Name:   "orgs",
 				Usage:  "get current user organization memberships",
-				Action: getUserOrgMemberships,
+				Action: getUserOrgMembershipsForGitlab,
 				Flags: []cli.Flag{
 					&cli.BoolFlag{
 						Name:        "short",

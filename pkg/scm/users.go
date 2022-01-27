@@ -1,8 +1,11 @@
 package scm
 
 import (
+	"context"
 	"errors"
+	"log"
 
+	"github.com/google/go-github/v42/github"
 	"github.com/xanzy/go-gitlab"
 )
 
@@ -11,7 +14,7 @@ var (
 )
 
 func GetUserDetails(username string) (*gitlab.User, error) {
-	users, _, err := Client().Users.ListUsers(
+	users, _, err := GetGitLabClient().Users.ListUsers(
 		&gitlab.ListUsersOptions{
 			Username: &username,
 		},
@@ -23,4 +26,14 @@ func GetUserDetails(username string) (*gitlab.User, error) {
 		return nil, ErrUserNotFound
 	}
 	return users[0], nil
+}
+
+func GetUserDetailsforGitHub(username string) (*github.User, error) {
+
+	ctx := context.Background()
+	user, _, err := GetGitHubClient().Users.Get(ctx, username)
+	if err != nil {
+		log.Fatalf("error listing users: %v", err)
+	}
+	return user, nil
 }

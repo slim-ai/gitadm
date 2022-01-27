@@ -16,3 +16,13 @@ func getUserDetails(c *cli.Context) error {
 	util.PrettyPrint(details)
 	return nil
 }
+
+func getUserDetailsForGitHub(c *cli.Context) error {
+	username := c.String("username")
+	details, err := scm.GetUserDetailsforGitHub(username)
+	if err != nil {
+		return errors.Wrap(&err, "username %s is invalid", username)
+	}
+	util.PrettyPrint(details)
+	return nil
+}
